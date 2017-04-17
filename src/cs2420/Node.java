@@ -5,7 +5,7 @@ import static solution.Utility.printable_symbol;
 /**
  * Represents a single node of a Huffman Tree.
  */
-class Node implements Comparable<Node>
+public class Node implements Comparable<Node>
 {
 	
 	private String symbol;

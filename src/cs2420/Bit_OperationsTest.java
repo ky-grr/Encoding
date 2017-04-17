@@ -34,7 +34,7 @@ public class Bit_OperationsTest {
 		
 		BitSet input = BitSet.valueOf(new byte[0]);
 		byte[] output = Bit_Operations.get_bytes(input);
-		Assert.assertArrayEquals(new byte[0], output);
+		assertArrayEquals(new byte[0], output);
 		
 	}
 

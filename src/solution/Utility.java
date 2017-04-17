@@ -4,7 +4,6 @@
 package solution;
 
 import java.util.Hashtable;
-
 import cs2420.Node;
 
 /**

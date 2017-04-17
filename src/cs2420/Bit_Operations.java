@@ -78,13 +78,7 @@ public final class Bit_Operations
 			
 		}
 
-		// 1) Create a new bit set: RESULT
-		// 2) for every bit in the bit set
-		//       if divisible by 8 we are at a new byte, so remember this fact
-		//       if the bit is true, set the appropriate bit in RESULT 
-		// 3) return a byte array from the RESULT 
-
-		return result.toByteArray(); // FIXME
+		return result.toByteArray();
 	}
 
 	/**
@@ -120,11 +114,8 @@ public final class Bit_Operations
 	 * @return the bit as a boolean
 	 */
 	public static boolean get_bit( byte the_byte, int position)
-	{
-		
-		
-		
-		return ((0b1000_0000 >> position) & the_byte) != 0; // FIXME!
+	{	
+		return ((0b1000_0000 >> position) & the_byte) != 0;
 	}
 
 }
