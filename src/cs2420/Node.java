@@ -11,14 +11,8 @@ public class Node implements Comparable<Node>
 	private String symbol;
 	private Node left;
 	private Node right;
+	private Node parent;
 	private int  frequency;
-
-	// FIXME:
-	//
-	//  add private data for:
-	//   parent -- references to other nodes
-	//   
-	//
 	
 	/**
 	 * Constructs a leaf node.
@@ -30,7 +24,13 @@ public class Node implements Comparable<Node>
 	 */
 	public Node( String sym, int frequency )
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		this.symbol = sym;
+		this.frequency = frequency;
+		
+		this.left = null;
+		this.right = null;
+		this.parent = null;
 	}
 
 	/**
@@ -44,7 +44,13 @@ public class Node implements Comparable<Node>
 	 */
 	public Node( String sym, Node left, Node right )
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		this.symbol = sym;
+		this.left = left;
+		this.right = right;
+		
+		this.parent = null;
+		this.frequency = left.frequency + right.frequency;
 	}
 	
 	/**
@@ -52,7 +58,8 @@ public class Node implements Comparable<Node>
 	 */
 	public String get_symbol()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		return this.symbol;
 	}
 	
 	/**
@@ -60,7 +67,14 @@ public class Node implements Comparable<Node>
 	 */
 	public String toString()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+
+		String result = this.symbol + "\n";
+		result += "Frequency: " + this.frequency + "\n";
+		result += "Parent: " + this.parent.symbol + "\n";
+		result += "Left: " + this.left.symbol + "\n";
+		result += "Right: " + this.right.symbol + "\n";
+		
+		return result;
 	}
 
 	/**
@@ -68,7 +82,12 @@ public class Node implements Comparable<Node>
 	 */
 	boolean leaf()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		if(this.right == null && this.left == null) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -77,7 +96,8 @@ public class Node implements Comparable<Node>
 	 */
 	public void set_parent( Node parent )
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+
+		this.parent = parent;
 	}
 	
 	/**
@@ -85,7 +105,8 @@ public class Node implements Comparable<Node>
 	 */
 	public Node get_parent()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		return this.parent;
 	}
 
 	/**
@@ -93,7 +114,8 @@ public class Node implements Comparable<Node>
 	 */
 	public Node parents_left()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+
+		return this.parent.left;
 	}
 
 	/**
@@ -101,7 +123,8 @@ public class Node implements Comparable<Node>
 	 */
 	public int get_frequency()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+
+		return this.frequency;
 	}
 	
 	/**
@@ -109,7 +132,8 @@ public class Node implements Comparable<Node>
 	 */
 	public void increment_frequency()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+
+		this.frequency++;
 	}
 
 	/**
@@ -126,7 +150,27 @@ public class Node implements Comparable<Node>
 	 */
 	String get_symbol( String code )
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		//Traversal Node.
+		Node currentNode = this;
+		
+		//Go through the entire bitstream, and direct the traversal left or right accordingly.
+		for(int index=0; index<code.length(); index++) {
+			
+			if(code.charAt(index) == '0') {
+				currentNode = this.left;
+			}
+			
+			if(code.charAt(index) == '1') {
+				currentNode = this.right;
+			}
+		}
+		
+		if(currentNode.leaf()) {
+			return currentNode.symbol;
+		}
+		
+		return null;
 	}
 	
 	
@@ -136,7 +180,21 @@ public class Node implements Comparable<Node>
 	 */
 	private Node left_most_child()
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+		
+		//If this Node doesn't have a left Node, return this Node.
+		if(this.left == null) {
+			return this;
+		}
+		
+		Node index = this.left;
+		
+		//Traverse until we find a Node without a left.
+		while(index.left != null) {
+			
+			index = index.left;
+		}
+		
+		return index;
 	}
 
 	/**
