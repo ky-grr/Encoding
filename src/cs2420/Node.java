@@ -1,6 +1,5 @@
 package cs2420;
 
-//Testing testing 1 2 3
 import static solution.Utility.printable_symbol;
 
 /**
