@@ -34,10 +34,12 @@ public final class Utility
 	 */
 	public static void increment( String symbol, Hashtable<String, Node> table )
 	{
-		
-		//FIXME:  implement this method
-		
-		throw new RuntimeException("Not Implemented :^(");
+		if( table.contains(symbol)){
+			table.get(symbol).increment_frequency();
+		}
+		else{
+			table.put(symbol, new Node(symbol,1));
+		}
 	}
 	
 	/**
