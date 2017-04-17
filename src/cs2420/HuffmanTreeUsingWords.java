@@ -288,12 +288,32 @@ public class HuffmanTreeUsingWords
 	static Hashtable<String, Node> compute_most_common_word_symbols( ArrayList<Character> buffer, int count ) 
 	{
 		
-		// FIXME:
-		//  write code to find the N most frequently used words (word --> more than one letter in a row)
-		// return a hash table containing nodes containing these words and frequnecies
-		
-		return null;
+		Hashtable<String, Node> table = new Hashtable<>();
+		String word = "";
+				
+		for(Character character : buffer) {
+			
+			//If we reach a space or newline and the previous word length is more than 1:
+			if(character.equals(' ') || (int)character == 10) {
+				if(word.length() > 1) {
+					
+					//Add this word to the table.
+					Utility.increment(word, table);
+				}
+				
+				//Reset the word for the next word.
+				word = "";
+			}
+			
+			//If the character is an upper or lower case letter, add it to the string.
+			else if(((int)character >= 65 && (int)character <= 90) || ((int)character >= 97 && (int)character <= 122)){
+				
+				word += character;
+			}
 
+		}
+		
+		return table;
 	}
 
 	/**
