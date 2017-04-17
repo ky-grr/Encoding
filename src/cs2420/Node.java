@@ -212,7 +212,8 @@ public class Node implements Comparable<Node>
 	 */
 	public int compareTo( Node rhs )
 	{
-		throw new RuntimeException("FIXME: NOT IMPLEMETED - write code here");
+
+		return this.frequency - rhs.frequency;
 	}
 
 
