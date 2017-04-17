@@ -1,6 +1,6 @@
 package cs2420;
 
-import static solution.Utility.printable_symbol;
+import static cs2420.Utility.printable_symbol;
 
 /**
  * Represents a single node of a Huffman Tree.

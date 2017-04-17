@@ -1,7 +1,7 @@
 package cs2420;
 
 import static cs2420.Bit_Operations.*;
-import static solution.Utility.*;
+import static cs2420.Utility.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
