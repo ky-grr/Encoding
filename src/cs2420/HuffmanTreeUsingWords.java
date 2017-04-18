@@ -219,7 +219,7 @@ public class HuffmanTreeUsingWords
 	 * @param file_bytes - the bytes from the compressed file (which start with the header information)
 	 * @return the hashtable containing all the symbol nodes
 	 */
-	private static Hashtable<String, Node> read_file_header_with_symbol_frequencies( ByteBuffer file_bytes )
+	protected static Hashtable<String, Node> read_file_header_with_symbol_frequencies( ByteBuffer file_bytes )
 	{
 		
 		if ( VERBOSE_ENCODING_TREE ) 		{ System.out.println("\n---------------- Reading encoding tree information  -----------------"); }
@@ -441,10 +441,26 @@ public class HuffmanTreeUsingWords
 			System.out.println("------------- Converting bit sequences back into symbols -------------------");
 		}
 		
-		//FIXME
+		List<String> list = new ArrayList<>();
+		String code = "";
 		
-		throw new RuntimeException("Error: did not find EOF termination character");
-
+		while(bit_stream.hasRemaining()) {
+			
+			//Build the code.
+			code += bit_stream.get();
+			
+			//Find the corresponding Node in the tree.
+			String symbol = root.get_symbol();
+			
+			//If we have found a symbol, save it and start again.
+			if(symbol != null) {
+				
+				list.add(symbol);
+				code = "";
+			}
+		}
+		
+		return list;
 	}
 
 	/**
