@@ -496,26 +496,21 @@ public class HuffmanTreeUsingWords
 			System.out.printf("------------ encoding table (ordered by frequency) ------------\n");
 		}
 		
-		// FIXME: build the header bytes
-		//        Note: you will want to use the convert_integer_to_bytes method
-		//              you will want to use the out.write method
-		//
-		//  pseudo code
-		//    for every node in the list of huffman_nodes
-		//        write the length of the symbol (to the out variable)
-		//        write the symbol itself
-		//        write the frequency
-		//    write a close 0
-		//    covert out into a byte array and return it.
-
+		for(Node node : huffman_nodes) {
+			
+			out.write(Bit_Operations.convert_integer_to_bytes(node.get_symbol().length()));
+			out.write(node.get_symbol().getBytes());
+			out.write(Bit_Operations.convert_integer_to_bytes(node.get_frequency()));
+		}
+		
+		out.write(Bit_Operations.convert_integer_to_bytes(0));
 
 		if ( VERBOSE_ENCODING_TREE)
 		{
 			System.out.println("\n\tEncoding Table Size:  " + count + " bytes");
 		}
 		
-		return null; // FIXME
-
+		return out.toByteArray();
 	}
 
 	/**
@@ -611,16 +606,35 @@ public class HuffmanTreeUsingWords
 	static Node create_tree( Collection<Node> nodes )
 	{
 
-
-		// FIXME
+		PriorityQueue<Node> pq = new PriorityQueue<>();
+		pq.addAll(nodes);
 		
+		int nodeCounter = 1;
+		Node returnNode = null;
 		
+		//Combines all Nodes in queue,
+		while(!pq.isEmpty()) {
+			
+			//Dequeue the next two Nodes.
+			Node one = pq.poll();
+			Node two = pq.poll();
+			
+			//Create the internal node and increment the name counter.
+			Node newNode = new Node("Node " + nodeCounter, one, two);
+			nodeCounter++;
+			
+			//Set the parents.
+			one.set_parent(newNode);
+			two.set_parent(newNode);
+			
+			//Put the Node back in the queue.
+			pq.add(newNode);
+			
+			//Save the last created Node, as we will want to return it when we exit the loop.
+			returnNode = newNode;
+		}
 		
-		
-		//if ( VERBOSE_PRINT_TREE )		{	System.out.println( root.createDot()); }
-		
-		return null; // FIXME: root;
-
+		return returnNode;
 	}
 
 
