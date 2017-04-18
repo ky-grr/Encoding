@@ -203,8 +203,9 @@ public class Node implements Comparable<Node>
 	 * @param rhs
 	 *            - right-hand side node
 	 * @return a value > 0 if this node is larger than rhs,
-	 *         a value < 0 if this node is smaller than rhs, 0 if the
-	 *         nodes are equal
+	 *         a value < 0 if this node is smaller than rhs, 
+	 *         ties are broken by the String comparison between the
+	 *         leftmost children of the Nodes.
 	 *         
 	 *         larger means node occurs more often (has a higher frequency).
 	 *         when tied, compare the symbol of this node's left most child vs the symbol of
@@ -212,8 +213,15 @@ public class Node implements Comparable<Node>
 	 */
 	public int compareTo( Node rhs )
 	{
+		
+		int difference = this.frequency - rhs.frequency;
+		
+		if(difference == 0) {
+			
+			return this.left_most_child().symbol.compareTo(rhs.left_most_child().symbol);
+		}
 
-		return this.frequency - rhs.frequency;
+		return difference;
 	}
 
 

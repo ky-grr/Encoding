@@ -231,6 +231,7 @@ public class HuffmanTreeUsingWords
 		int frequency = file_bytes.getInt();
 		
 //		Node node = new Node(symbol, frequency);
+		//Compare leftmost children.
 //		
 //		table.add(node)
 		
@@ -290,31 +291,43 @@ public class HuffmanTreeUsingWords
 	*/
 	static Hashtable<String, Node> compute_most_common_word_symbols( ArrayList<Character> buffer, int count ) 
 	{
-		//Put ONLY the top N words into the table. FIXME
 		
-		Hashtable<String, Node> table = new Hashtable<>();
+		Hashtable<String, Node> temporaryHolder = new Hashtable<>();
+		Hashtable<String, Node> mostCommon = new Hashtable<>();
 		String word = "";
 				
+		//Fill the temporary table with all Nodes.
 		for(Character character : buffer) {
 			
-			//If we encounter something that is not a character:
-			if(!(((int)character >= 65 && (int)character <= 90) || ((int)character >= 97 && (int)character <= 122))) {
+			//If we encounter something that is not a character and the word is more than one in length:
+			if((!Character.isLetter(character)) && word.length() > 1) {
 					
 				//Add this word to the table.
-				Utility.increment(word, table);
+				Utility.increment(word, temporaryHolder);
 			
 				//Reset the word for the next word.
 				word = "";
 			}
 			
 			//If the character is an upper or lower case letter, add it to the string.
-			else if(((int)character >= 65 && (int)character <= 90) || ((int)character >= 97 && (int)character <= 122)){
+			else {
 				
 				word += character;
 			}
 		}
 		
-		return table;
+		//Set up a priority queue that puts maximum items at the top.
+		PriorityQueue<Node> orderedList = new PriorityQueue<>(Collections.reverseOrder());
+		orderedList.addAll(temporaryHolder.values());
+		
+		//Take the count most common words from the top of the PQ and put them in our final hash table.
+		for(int index=0; index<count; index++) {
+			
+			Node nodeToAdd = orderedList.poll();
+			mostCommon.put(nodeToAdd.get_symbol(), nodeToAdd);
+		}
+		
+		return mostCommon;
 	}
 
 	/**
@@ -338,8 +351,6 @@ public class HuffmanTreeUsingWords
 		//
 		// Now count all the other symbols (e.g., single characters not in symbol words)
 		// 
-		
-		//FIXME account for EOF
 
 		Hashtable<String, Node> all_symbols = new Hashtable<>();
 		String current_symbol = "";
@@ -417,6 +428,8 @@ public class HuffmanTreeUsingWords
 		{
 			System.out.println("------------- Converting bit sequences back into symbols -------------------");
 		}
+		
+		//FIXME
 		
 		throw new RuntimeException("Error: did not find EOF termination character");
 
