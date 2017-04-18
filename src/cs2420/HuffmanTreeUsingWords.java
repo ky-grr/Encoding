@@ -614,6 +614,7 @@ public class HuffmanTreeUsingWords
 				path.addFirst(0);
 			}
 			
+			//Otherwise, we are a right child, so add a 1.
 			else {
 				
 				path.addFirst(1);
