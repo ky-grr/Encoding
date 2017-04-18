@@ -70,9 +70,16 @@ public class Node implements Comparable<Node>
 
 		String result = this.symbol + "\n";
 		result += "Frequency: " + this.frequency + "\n";
-		result += "Parent: " + this.parent.symbol + "\n";
-		result += "Left: " + this.left.symbol + "\n";
-		result += "Right: " + this.right.symbol + "\n";
+		
+		if(this.parent != null) {
+			result += "Parent: " + this.parent.symbol + "\n";
+		}
+		
+		if(this.left != null) {
+			
+			result += "Left: " + this.left.symbol + "\n";
+			result += "Right: " + this.right.symbol + "\n";
+		}
 		
 		return result;
 	}

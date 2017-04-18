@@ -310,12 +310,12 @@ public class HuffmanTreeUsingWords
 			}
 			
 			//If the character is an upper or lower case letter, add it to the string.
-			else {
+			else if(Character.isLetter(character)){
 				
 				word += character;
 			}
 		}
-		
+				
 		//Set up a priority queue that puts maximum items at the top.
 		PriorityQueue<Node> orderedList = new PriorityQueue<>(Collections.reverseOrder());
 		orderedList.addAll(temporaryHolder.values());
@@ -323,8 +323,11 @@ public class HuffmanTreeUsingWords
 		//Take the count most common words from the top of the PQ and put them in our final hash table.
 		for(int index=0; index<count; index++) {
 			
-			Node nodeToAdd = orderedList.poll();
-			mostCommon.put(nodeToAdd.get_symbol(), nodeToAdd);
+			if(!orderedList.isEmpty()) {
+				
+				Node nodeToAdd = orderedList.poll();
+				mostCommon.put(nodeToAdd.get_symbol(), nodeToAdd);
+			}
 		}
 		
 		return mostCommon;
