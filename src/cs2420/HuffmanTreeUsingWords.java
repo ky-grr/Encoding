@@ -225,6 +225,14 @@ public class HuffmanTreeUsingWords
 		if ( VERBOSE_ENCODING_TREE ) 		{ System.out.println("\n---------------- Reading encoding tree information  -----------------"); }
 
 		// FIXME:
+		//Keep going until length is 0.
+		int length = file_bytes.getInt();
+		char character = file_bytes.getChar();
+		int frequency = file_bytes.getInt();
+		
+//		Node node = new Node(symbol, frequency);
+//		
+//		table.add(node)
 		
 		if ( VERBOSE_ENCODING_TREE )		{	System.out.println("\n\tRead encoding table. Size:  " + file_bytes.position() + " bytes"); }
 		
@@ -266,41 +274,35 @@ public class HuffmanTreeUsingWords
 	}
 	
 	/**
-	 * To build the Huffman tree (for compression), we must compute the list of symbols from the file.
-	 * 
- 	 * Algorithm:
- 	 *  
-	 *   1) counts how often all the words appear
-	 *   2) keep the N most common words
-	 *   3) re-parse the file to count all non words
-	 *   
-	 *   4) put every symbol into a Node and store this in a hash table 
-	 *   5) put every symbol in order into a list for future processing
-	 *
-	 * @param infile        - input file
-	 * @param count         - find the top N (count) words
-	 *            
-	 * WARNING: modifies the symbol hashtable
-	 *  
-	 * @return an ordered list of the symbols as they appear in the file
-	 *            
-	 */
+	* To build the Huffman tree (for compression), we must compute the list of symbols from the file.
+	*
+	* Algorithm:
+	*
+	* 1) counts how often all the words appear
+	* 2) keep the N most common words
+	* o) put every symbol into a Node and store this in a hash table
+	*
+	* @param buffer - list of all characters in file in order
+	* @param count - find the top N (count) words
+	*
+	* @return a hash table containing nodes, where each node contains the word and the frequency of that word
+	*
+	*/
 	static Hashtable<String, Node> compute_most_common_word_symbols( ArrayList<Character> buffer, int count ) 
 	{
+		//Put ONLY the top N words into the table. FIXME
 		
 		Hashtable<String, Node> table = new Hashtable<>();
 		String word = "";
 				
 		for(Character character : buffer) {
 			
-			//If we reach a space or newline and the previous word length is more than 1:
-			if(character.equals(' ') || (int)character == 10) {
-				if(word.length() > 1) {
+			//If we encounter something that is not a character:
+			if(!(((int)character >= 65 && (int)character <= 90) || ((int)character >= 97 && (int)character <= 122))) {
 					
-					//Add this word to the table.
-					Utility.increment(word, table);
-				}
-				
+				//Add this word to the table.
+				Utility.increment(word, table);
+			
 				//Reset the word for the next word.
 				word = "";
 			}
@@ -310,21 +312,24 @@ public class HuffmanTreeUsingWords
 				
 				word += character;
 			}
-
 		}
 		
 		return table;
 	}
 
 	/**
-	 * count all the symbols in the file including single characters and predefined "word" symbols
-	 * 
-	 * @param buffer  - the file's characters
-	 * @param word_symbols - the words that have already been identified as most common and are to be used as symbols
-	 * @param ordered_list_of_symbols - RETURNS an array list of all symbols in the file.
-	 * 
-	 * @return the final symbol table representing the huffman nodes (not connected yet) for the symbols in the file. 
-	 */
+	* given the list of all characters in the file, count all symbols in the file
+	* that are not the "most frequent" word symbols (which have already been counted).
+	* Return the hash table containing ALL nodes(symbols and counts) for the given characters
+	*
+	* ADDITIONALLY - return the ordered list of all symbols via the "out" parameter
+	*
+	* @param buffer - the file's characters
+	* @param word_symbols - the words that have already been identified as most common and are to be used as symbols
+	* @param ordered_list_of_symbols - RETURNS an array list of all symbols in the file.
+	*
+	* @return the final symbol table representing the huffman nodes (not connected yet) for the symbols in the file.
+	*/
 	public static Hashtable<String, Node> 
 	compute_remaining_single_character_symbols( ArrayList<Character> buffer, 
 	                                            Hashtable<String, Node> word_symbols,
@@ -333,6 +338,8 @@ public class HuffmanTreeUsingWords
 		//
 		// Now count all the other symbols (e.g., single characters not in symbol words)
 		// 
+		
+		//FIXME account for EOF
 
 		Hashtable<String, Node> all_symbols = new Hashtable<>();
 		String current_symbol = "";
@@ -533,6 +540,10 @@ public class HuffmanTreeUsingWords
 		}
 		
 		// FIXME
+//		first word in our ordered list of symbols
+//		node <-- table(first_word)
+//		bitpattern <-- call the function at the end of the file
+//		bitset <-- use the bitpattern to change the bitset
 
 		if ( VERBOSE_PRINT_SYMBOL_BITS ) 						{ System.out.println("\n----------- done --------------"); }
 
@@ -565,7 +576,7 @@ public class HuffmanTreeUsingWords
 		
 		
 		
-		// if ( VERBOSE_PRINT_TREE )		{	System.out.println( root.createDot()); }
+		//if ( VERBOSE_PRINT_TREE )		{	System.out.println( root.createDot()); }
 		
 		return null; // FIXME: root;
 
@@ -592,7 +603,26 @@ public class HuffmanTreeUsingWords
 	private static LinkedList<Integer> determine_bit_pattern_for_symbol( Node leaf )
 	{
 
-		return null; // FIXME
+		LinkedList<Integer> path = new LinkedList<>();
+		Node traverse = leaf;
+		
+		while(traverse.get_parent() != null) {
+		
+			//If our current Node is a left child, add a 0.
+			if(traverse.parents_left() == traverse) {
+				
+				path.addFirst(0);
+			}
+			
+			else {
+				
+				path.addFirst(1);
+			}
+			
+			traverse = traverse.get_parent();
+		}
+
+		return path;
 	}
 
 
