@@ -223,21 +223,33 @@ public class HuffmanTreeUsingWords
 	{
 		
 		if ( VERBOSE_ENCODING_TREE ) 		{ System.out.println("\n---------------- Reading encoding tree information  -----------------"); }
-
-		// FIXME:
-		//Keep going until length is 0.
-		int length = file_bytes.getInt();
-		char character = file_bytes.getChar();
-		int frequency = file_bytes.getInt();
 		
-//		Node node = new Node(symbol, frequency);
-		//Compare leftmost children.
-//		
-//		table.add(node)
+		Hashtable<String, Node> table = new Hashtable<>();
+
+		int length;
+		int frequency;
+		
+		//Read the file.
+		while((length = file_bytes.getInt()) != 0) {
+			
+			String word = "";
+			
+			//Collect the word according to the length.
+			for(int wordIndex=0; wordIndex<length; wordIndex++) {
+				
+				word += Character.toString(file_bytes.getChar());
+			}
+			
+			frequency = file_bytes.getInt();
+			
+			//Create a Node from the parsed data and add it to the table.
+			Node node = new Node(word, frequency); 
+			table.put(node.get_symbol(), node);
+		}
 		
 		if ( VERBOSE_ENCODING_TREE )		{	System.out.println("\n\tRead encoding table. Size:  " + file_bytes.position() + " bytes"); }
 		
-		return null; // FIXME
+		return table;
 	}
 
 	/**
@@ -321,13 +333,10 @@ public class HuffmanTreeUsingWords
 		orderedList.addAll(temporaryHolder.values());
 		
 		//Take the count most common words from the top of the PQ and put them in our final hash table.
-		for(int index=0; index<count; index++) {
-			
-			if(!orderedList.isEmpty()) {
+		for(int index=0; index<count && !orderedList.isEmpty(); index++) {
 				
 				Node nodeToAdd = orderedList.poll();
 				mostCommon.put(nodeToAdd.get_symbol(), nodeToAdd);
-			}
 		}
 		
 		return mostCommon;

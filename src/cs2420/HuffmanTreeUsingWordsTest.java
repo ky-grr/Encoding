@@ -13,12 +13,12 @@ public class HuffmanTreeUsingWordsTest {
 	@Test
 	public void testCompute_most_common_word_symbols() {
 		
-		File file = new File("Resources/a_few_letters");
+		File file = new File("Resources/constitution");
 		
 		//Create the ArrayList buffer of Characters.
 		ArrayList<Character> buffer = HuffmanTreeUsingWords.read_file(file);
 		
-		Hashtable<String, Node> words = HuffmanTreeUsingWords.compute_most_common_word_symbols(buffer, 7);
+		Hashtable<String, Node> words = HuffmanTreeUsingWords.compute_most_common_word_symbols(buffer, 6);
 		
 		System.out.println(words);
 	}
