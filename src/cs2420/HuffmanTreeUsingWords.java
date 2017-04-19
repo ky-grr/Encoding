@@ -471,16 +471,13 @@ public class HuffmanTreeUsingWords
 				
 				//If we have found a symbol, save it and start again.
 				if(symbol != null) {
-					
-					if(list.contains(symbol)) {
-						
-						code = "";
-					}
-					else {
 						
 						list.add(symbol);
 						code = "";
-					}
+						
+						if(symbol.equals(EOF)) {
+							return list;
+						}
 				}
 			}
 		}
