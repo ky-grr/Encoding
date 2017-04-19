@@ -165,11 +165,11 @@ public class Node implements Comparable<Node>
 		for(int index=0; index<code.length(); index++) {
 			
 			if(code.charAt(index) == '0') {
-				currentNode = this.left;
+				currentNode = currentNode.left;
 			}
 			
 			if(code.charAt(index) == '1') {
-				currentNode = this.right;
+				currentNode = currentNode.right;
 			}
 		}
 		
