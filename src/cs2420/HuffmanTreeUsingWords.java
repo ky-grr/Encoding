@@ -615,14 +615,6 @@ public class HuffmanTreeUsingWords
 				index++;
 			}
 		}
-		
-		
-		
-		// FIXME
-//		first word in our ordered list of symbols
-//		node <-- table(first_word)
-//		bitpattern <-- call the function at the end of the file
-//		bitset <-- use the bitpattern to change the bitset
 
 		if ( VERBOSE_PRINT_SYMBOL_BITS ) 						{ System.out.println("\n----------- done --------------"); }
 
