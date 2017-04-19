@@ -451,18 +451,30 @@ public class HuffmanTreeUsingWords
 		
 		while(bit_stream.hasRemaining()) {
 			
-			//Build the code.
-			byte[] b = new byte[] {bit_stream.get()};
-			code += b;
+			Byte nextRound = bit_stream.get();
 			
-			//Find the corresponding Node in the tree.
-			String symbol = root.get_symbol(code);
-			
-			//If we have found a symbol, save it and start again.
-			if(symbol != null) {
+			for(int index=0; index<8; index++) {
 				
-				list.add(symbol);
-				code = "";
+				//Build the code.
+				boolean bit = Bit_Operations.get_bit(nextRound, index);
+				
+				if(bit) {
+					code += "1";
+				}
+				
+				else {
+					code+= "0";
+				}
+				
+				//Find the corresponding Node in the tree.
+				String symbol = root.get_symbol(code);
+				
+				//If we have found a symbol, save it and start again.
+				if(symbol != null) {
+					
+					list.add(symbol);
+					code = "";
+				}
 			}
 		}
 		
