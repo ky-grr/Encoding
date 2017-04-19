@@ -452,7 +452,8 @@ public class HuffmanTreeUsingWords
 		while(bit_stream.hasRemaining()) {
 			
 			//Build the code.
-			code += bit_stream.get();
+			byte[] b = new byte[] {bit_stream.get()};
+			code += b;
 			
 			//Find the corresponding Node in the tree.
 			String symbol = root.get_symbol(code);
