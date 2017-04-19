@@ -8,11 +8,11 @@ import static cs2420.Utility.printable_symbol;
 public class Node implements Comparable<Node>
 {
 	
-	private String symbol;
-	private Node left;
-	private Node right;
-	private Node parent;
-	private int  frequency;
+	protected String symbol;
+	protected Node left;
+	protected Node right;
+	protected Node parent;
+	protected int  frequency;
 	
 	/**
 	 * Constructs a leaf node.

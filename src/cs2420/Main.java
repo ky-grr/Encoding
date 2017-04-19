@@ -59,7 +59,7 @@ public class Main
 
 		// test code
 
-		huffman = new HuffmanTreeUsingWords( 0 );
+		huffman = new HuffmanTreeUsingWords( 5 );
 		compress = true;
 		//file_name = "Resources\\two_cities";
 		//file_name = "Resources\\constitution";
@@ -67,7 +67,7 @@ public class Main
 		//file_name = "Resources\\alphabetplus";
 		//file_name = "Resources\\alphabet";
 		//file_name = "Resources\\simple";
-		file_name = "Resources\\a_few_letters";
+		file_name = "Resources/a_few_letters";
 		
 		if ( !compress )
 		{

@@ -1,15 +1,8 @@
 package cs2420;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Hashtable;
 
 import org.junit.Test;
 
@@ -31,20 +24,53 @@ public class HuffmanTreeUsingWordsTest {
 	@Test
 	public void readFileHeaderWithSymbolFrequencys(){
 		
-		Path path = Paths.get("Resources/a_few_letters");
-		try {
-			byte [] data =Files.readAllBytes(path);
-			ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-			System.out.println(data);
-			Hashtable<String, Node> table = HuffmanTreeUsingWords.read_file_header_with_symbol_frequencies(byteBuffer);
+		HuffmanTreeUsingWords tree = new HuffmanTreeUsingWords(10);
 		
-			System.out.println(table);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-
+		Path path = Paths.get("Resources/a_few_letters");
+		
+		tree.compress_file(path.toFile(), new File("Resources/output"));
+		tree.decompress_file(Paths.get("Resources/output"), new File("Resources/decompressed"));	
 	}
+	
+//	//Debugger variable view shows that everything is arranged as it should be; dotview is broken.
+//	@Test
+//	public void dotFileTest() {
+//		
+//		Node root;
+//		
+//		List<String> ordered_list_of_symbols = new ArrayList<>();
+//
+//		Hashtable<String, Node> top_words;
+//		Hashtable<String, Node> all_symbols; 
+//
+//		ArrayList<Character> buffer  = HuffmanTreeUsingWords.read_file(new File("Resources/a_few_letters"));
+//			
+//		top_words   = HuffmanTreeUsingWords.compute_most_common_word_symbols(buffer, 10);
+//		all_symbols = HuffmanTreeUsingWords.compute_remaining_single_character_symbols(buffer, top_words, ordered_list_of_symbols);
+//
+//		root = HuffmanTreeUsingWords.create_tree( all_symbols.values() );
+//		
+//		System.out.println(root.createDot());
+//	}
+//	
+//	@Test
+//	public void determine_bit_pattern_for_symbolTest() {
+//		
+//		Node root;
+//		
+//		List<String> ordered_list_of_symbols = new ArrayList<>();
+//
+//		Hashtable<String, Node> top_words;
+//		Hashtable<String, Node> all_symbols; 
+//
+//		ArrayList<Character> buffer  = HuffmanTreeUsingWords.read_file(new File("Resources/a_few_letters"));
+//			
+//		top_words   = HuffmanTreeUsingWords.compute_most_common_word_symbols(buffer, 10);
+//		all_symbols = HuffmanTreeUsingWords.compute_remaining_single_character_symbols(buffer, top_words, ordered_list_of_symbols);
+//
+//		root = HuffmanTreeUsingWords.create_tree( all_symbols.values() );
+//		
+//		System.out.println(HuffmanTreeUsingWords.determine_bit_pattern_for_symbol(root.right.left.right.right));
+//	}
 
 }

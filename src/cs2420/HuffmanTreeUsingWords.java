@@ -237,7 +237,7 @@ public class HuffmanTreeUsingWords
 			//Collect the word according to the length.
 			for(int wordIndex=0; wordIndex<length; wordIndex++) {
 				
-				word += Character.toString(file_bytes.getChar());
+				word += (char)file_bytes.get();
 			}
 			
 			frequency = file_bytes.getInt();
@@ -326,6 +326,11 @@ public class HuffmanTreeUsingWords
 				
 				word += character;
 			}
+		}
+		
+		//Grab the last word in the file, in case there was not a newline or other terminating character.
+		if(word.length() > 1) {
+			Utility.increment(word, temporaryHolder);
 		}
 				
 		//Set up a priority queue that puts maximum items at the top.
@@ -450,7 +455,7 @@ public class HuffmanTreeUsingWords
 			code += bit_stream.get();
 			
 			//Find the corresponding Node in the tree.
-			String symbol = root.get_symbol();
+			String symbol = root.get_symbol(code);
 			
 			//If we have found a symbol, save it and start again.
 			if(symbol != null) {
@@ -501,6 +506,7 @@ public class HuffmanTreeUsingWords
 			out.write(Bit_Operations.convert_integer_to_bytes(node.get_symbol().length()));
 			out.write(node.get_symbol().getBytes());
 			out.write(Bit_Operations.convert_integer_to_bytes(node.get_frequency()));
+			count++;
 		}
 		
 		out.write(Bit_Operations.convert_integer_to_bytes(0));
@@ -567,6 +573,7 @@ public class HuffmanTreeUsingWords
 	static byte[] build_compressed_bit_stream( List<String> ordered_list_of_symbols, Hashtable<String, Node> table ) throws IOException
 	{
 		BitSet bitset = new BitSet();
+		int index=0;
 
 		if (VERBOSE_PRINT_SYMBOL_BITS)
 		{
@@ -574,6 +581,22 @@ public class HuffmanTreeUsingWords
 			System.out
 					.println("Building bit representation of each symbol for " + ordered_list_of_symbols.size() + " symbols");
 		}
+		
+		for(String string : ordered_list_of_symbols) {
+			
+			LinkedList<Integer> bitpattern = determine_bit_pattern_for_symbol(table.get(string));
+			
+			for(Integer bit : bitpattern) {
+				
+				if(bit == 1) {
+					bitset.set(index);
+				}
+				
+				index++;
+			}
+		}
+		
+		
 		
 		// FIXME
 //		first word in our ordered list of symbols
@@ -610,10 +633,9 @@ public class HuffmanTreeUsingWords
 		pq.addAll(nodes);
 		
 		int nodeCounter = 1;
-		Node returnNode = null;
 		
-		//Combines all Nodes in queue,
-		while(!pq.isEmpty()) {
+		//Combines all Nodes in queue until one Node remains.
+		while(pq.size() > 1) {
 			
 			//Dequeue the next two Nodes.
 			Node one = pq.poll();
@@ -629,12 +651,10 @@ public class HuffmanTreeUsingWords
 			
 			//Put the Node back in the queue.
 			pq.add(newNode);
-			
-			//Save the last created Node, as we will want to return it when we exit the loop.
-			returnNode = newNode;
 		}
 		
-		return returnNode;
+		//Return the final Node as the root.
+		return pq.poll();
 	}
 
 
@@ -655,7 +675,7 @@ public class HuffmanTreeUsingWords
 	 * @param node       - the node in the huffman tree containing the symbol 
 	 * 
 	 */
-	private static LinkedList<Integer> determine_bit_pattern_for_symbol( Node leaf )
+	protected static LinkedList<Integer> determine_bit_pattern_for_symbol( Node leaf )
 	{
 
 		LinkedList<Integer> path = new LinkedList<>();
