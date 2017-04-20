@@ -2,7 +2,6 @@ package cs2420;
 
 import static cs2420.Bit_Operations.*;
 import static cs2420.Utility.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -556,6 +555,11 @@ public class HuffmanTreeUsingWords
 		{
 			for (String symbol : symbol_list)
 			{
+				
+				if(symbol.equals(EOF)) {
+					break;
+				}
+				
 				for (int i = 0; i < symbol.length(); i++)
 				{
 					fs.write(symbol.charAt(i));
