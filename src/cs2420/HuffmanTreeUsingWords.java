@@ -267,6 +267,7 @@ public class HuffmanTreeUsingWords
 
 			while (true)
 			{
+				
 				int character_code = reader.read();
 
 				if (character_code == End_Of_Stream)
