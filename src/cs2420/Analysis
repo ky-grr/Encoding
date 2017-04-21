@@ -1,0 +1,42 @@
+package cs2420;
+
+import java.io.File;
+import java.nio.file.Path;
+
+public class Analysis {
+
+	public static void main(String args[]) {
+
+		File inFile = new File("Resources/two_cities");
+		File outFileCompression = new File("Resources/two_cities_compressed");
+		Path path = outFileCompression.toPath();
+		File outFileDecompression = new File("Resources/two_cities_decompressed");
+		long startTime;
+		long endTime;
+		long totalTime;
+		HuffmanTreeUsingWords huffman = null;
+
+		for (int numOfWords = 1000; numOfWords < 10000; numOfWords += 1000) {
+			huffman = new HuffmanTreeUsingWords(numOfWords);
+
+			startTime = System.nanoTime();
+			huffman.compress_file(inFile, outFileCompression);
+			endTime = System.nanoTime();
+			
+			totalTime = (endTime - startTime);
+			System.out.println("Number of words: "+numOfWords +" time: " + totalTime);
+		}
+		
+		for (int numOfWords = 1000; numOfWords < 10000; numOfWords += 1000) {
+			huffman = new HuffmanTreeUsingWords(numOfWords);
+
+			startTime = System.nanoTime();
+			huffman.decompress_file(path, outFileDecompression);
+			endTime = System.nanoTime();
+			
+			totalTime = (endTime - startTime);
+			System.out.println("Number of words: "+numOfWords +" time: " + totalTime);
+		}
+		
+	}
+}
