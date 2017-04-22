@@ -3,15 +3,36 @@ package cs2420;
 import static cs2420.Utility.printable_symbol;
 
 /**
- * Represents a single node of a Huffman Tree.
+ * Represents a single node of a Huffman Tree by containing a symbol,
+ * a frequency, and three references to a left, right, and parent Node.
+ * 
+ * @author H. James de St. Germain, Kylee Fluckiger, & Chloe Josien
  */
 public class Node implements Comparable<Node>
 {
-	
+	/**
+	 * This field represents the String symbol in the Node.
+	 */
 	protected String symbol;
+	
+	/**
+	 * This field points to this Node's left child.
+	 */
 	protected Node left;
+	
+	/**
+	 * This field points to this Node's right child.
+	 */
 	protected Node right;
+	
+	/**
+	 * This field points to this Node's parent.
+	 */
 	protected Node parent;
+	
+	/**
+	 * This field stores the frequency of the symbol in our tree.
+	 */
 	protected int  frequency;
 	
 	/**
@@ -90,6 +111,7 @@ public class Node implements Comparable<Node>
 	boolean leaf()
 	{
 		
+		//This Node is a leaf if it doesn't have any children.
 		if(this.right == null && this.left == null) {
 			return true;
 		}
@@ -223,6 +245,7 @@ public class Node implements Comparable<Node>
 		
 		int difference = this.frequency - rhs.frequency;
 		
+		//If the frequencies are the same, compare the leftmost children of this Node.
 		if(difference == 0) {
 			
 			return this.left_most_child().symbol.compareTo(rhs.left_most_child().symbol);

@@ -3,9 +3,15 @@ package cs2420;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import org.junit.Test;
 
+/**
+ * This Junit test suite contains methods to test our HuffmanTreeUsingWords class.
+ * The function names are self-explanatory, and can be commented or uncommented
+ * to print helpful debugging information.
+ * 
+ * @author Kylee Fluckiger & Chloe Josien
+ */
 public class HuffmanTreeUsingWordsTest {
 
 //	@Test

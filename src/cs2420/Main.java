@@ -3,6 +3,16 @@ package cs2420;
 import java.io.File;
 import java.nio.file.Paths;
 
+/**
+ * This class provides a command line interface to compress and decompress
+ * files using our Huffman with words implementation.
+ * 
+ * NOTE: We have commented out the test code and uncommented the command
+ * line portion of the function.
+ *  
+ * @author H. James de St. Germain
+ *
+ */
 public class Main
 {
 	/**
@@ -16,7 +26,8 @@ public class Main
 	 * 
 	 * huffman file_name
 	 * 
-	 * @param args
+	 * @param args	 * @throws IOException - if something goes wrong
+
 	 *            - see above
 	 */
 	public static void main( String[] args )
@@ -27,7 +38,6 @@ public class Main
 		String file_name = "";
 		boolean compress = false;
 
-		/* Uncomment to make this run on the command line
 		if (args.length == 3)
 		{
 			huffman = new HuffmanTreeUsingWords(Integer.parseInt(args[1]));
@@ -55,52 +65,51 @@ public class Main
 			System.out.println("      Uncompressed files will end with .uncompress to avoid destroying the original.");
 			return;
 		}
-		*/
 
 		// test code
-
-		huffman = new HuffmanTreeUsingWords( 100 );
-		compress = false;
-		//file_name = "Resources/two_cities";
-		//file_name = "Resources/constitution";
-		file_name = "Resources/green_eggs_and_ham";
-		//file_name = "Resources\\alphabetplus";
-		//file_name = "Resources/alphabet";
-		//file_name = "Resources/recycleAlphabet";
-		//file_name = "Resources/simple";
-		//file_name = "Resources/a_few_letters";
-		
-		if ( !compress )
-		{
-			file_name += "." + huffman.WORD_COUNT;
-		}
-
-		if (compress)
-		{
-			System.out.println("Compressing file( " + huffman.WORD_COUNT + ") : " + file_name);
-		}
-		else
-		{
-			System.out.println("Uncompressing file : " + file_name);
-			System.out.println("using " + huffman.WORD_COUNT + " words as symbols.");
-		}
-
-		// ignore . extensions
-		String[] new_file_name = new String[0]; // file_name.split("\\.");
-
-		if (new_file_name.length > 1)
-		{
-			file_name = new_file_name[0];
-		}
-		
-		if (compress)
-		{
-			huffman.compress_file(new File(file_name), new File(file_name + "." + huffman.WORD_COUNT + ".huf"));
-		}
-		else
-		{
-			huffman.decompress_file(Paths.get(file_name + ".huf"), new File(file_name + ".uncompress"));
-		}
+//
+//		huffman = new HuffmanTreeUsingWords( 100 );
+//		compress = false;
+//		//file_name = "Resources/two_cities";
+//		//file_name = "Resources/constitution";
+//		file_name = "Resources/green_eggs_and_ham";
+//		//file_name = "Resources\\alphabetplus";
+//		//file_name = "Resources/alphabet";
+//		//file_name = "Resources/recycleAlphabet";
+//		//file_name = "Resources/simple";
+//		//file_name = "Resources/a_few_letters";
+//		
+//		if ( !compress )
+//		{
+//			file_name += "." + huffman.WORD_COUNT;
+//		}
+//
+//		if (compress)
+//		{
+//			System.out.println("Compressing file( " + huffman.WORD_COUNT + ") : " + file_name);
+//		}
+//		else
+//		{
+//			System.out.println("Uncompressing file : " + file_name);
+//			System.out.println("using " + huffman.WORD_COUNT + " words as symbols.");
+//		}
+//
+//		// ignore . extensions
+//		String[] new_file_name = new String[0]; // file_name.split("\\.");
+//
+//		if (new_file_name.length > 1)
+//		{
+//			file_name = new_file_name[0];
+//		}
+//		
+//		if (compress)
+//		{
+//			huffman.compress_file(new File(file_name), new File(file_name + "." + huffman.WORD_COUNT + ".huf"));
+//		}
+//		else
+//		{
+//			huffman.decompress_file(Paths.get(file_name + ".huf"), new File(file_name + ".uncompress"));
+//		}
 	}
 
 }

@@ -24,6 +24,7 @@ import java.util.PriorityQueue;
  * @author Original Huffman code by Erin Parker, April 2007
  *         Adapted by H. James de St. Germain to words as symbols 2008
  *         Heavily Updated by H. James de St. Germain 2017
+ *         Submitted by Kylee Fluckiger & Chloe Josien
  * 
  *         Implements file compression and decompression using Huffman's algorithm.
  * 
@@ -31,7 +32,6 @@ import java.util.PriorityQueue;
  *         as well. To see what the best levels of compression are, we choose
  *         the "N" most frequent words (modified by their length) and use these
  *         along with characters as symbols for compression.
- * 
  */
 public class HuffmanTreeUsingWords
 {
@@ -192,7 +192,6 @@ public class HuffmanTreeUsingWords
 	 * 
 	 * @param bits  - the compressed bit stream that needs to be turned back into real characters and words
 	 * @param outfile - the file to put this data into
-	 * @throws IOException - if something goes wrong
 	 */
 	private static void decompress_data( Node huffman_root, ByteBuffer bits, File outfile ) throws IOException
 	{
@@ -253,9 +252,11 @@ public class HuffmanTreeUsingWords
 
 	/**
 	 * transfer all the data from the file into an array list
-	 * @param infile - file we are compressing
-	 *  
+	 * 
+	 * @param infile - file we are compressing 
 	 * @return the ArrayList representation of the file (ordered of course)
+	 * 
+	 * @throws RuntimeException, if something goes wrong reading the file
 	 */
 	static ArrayList<Character> read_file(File infile ) 
 	{
@@ -268,13 +269,16 @@ public class HuffmanTreeUsingWords
 			while (true)
 			{
 				
+				//Read a character from the file.
 				int character_code = reader.read();
 
+				//If we have reached the end of the file, break.
 				if (character_code == End_Of_Stream)
 				{
 					break;
 				}
 
+				//Otherwise, add the character to the final ArrayList.
 				buffer.add((char) character_code);
 			}
 		}
@@ -449,10 +453,13 @@ public class HuffmanTreeUsingWords
 		List<String> list = new ArrayList<>();
 		String code = "";
 		
+		//Go through the whole bitstream.
 		while(bit_stream.hasRemaining()) {
 			
+			//Grab the next 8 bits from the bitstream.
 			Byte nextRound = bit_stream.get();
 			
+			//Go through each of the 8 bits in the byte:
 			for(int index=0; index<8; index++) {
 				
 				//Build the code.
@@ -518,14 +525,22 @@ public class HuffmanTreeUsingWords
 			System.out.printf("------------ encoding table (ordered by frequency) ------------\n");
 		}
 		
+		//For each node in the Huffman tree:
 		for(Node node : huffman_nodes) {
 			
+			//Write the length of the symbol.
 			out.write(Bit_Operations.convert_integer_to_bytes(node.get_symbol().length()));
+			
+			//Then write the symbol itself, in bits.
 			out.write(node.get_symbol().getBytes());
+			
+			//Finally, write how often this symbol appears.
 			out.write(Bit_Operations.convert_integer_to_bytes(node.get_frequency()));
+			
 			count++;
 		}
 		
+		//Write 0 at the end of the file to signal it is finished.
 		out.write(Bit_Operations.convert_integer_to_bytes(0));
 
 		if ( VERBOSE_ENCODING_TREE)
@@ -554,13 +569,17 @@ public class HuffmanTreeUsingWords
 	{
 		try (FileOutputStream fs = new FileOutputStream(outfile))
 		{
+			
+			//For every symbol:
 			for (String symbol : symbol_list)
 			{
 				
+				//If we have found our EOF, break.
 				if(symbol.equals(EOF)) {
 					break;
 				}
 				
+				//Otherwise, write each character to the file, character by character.
 				for (int i = 0; i < symbol.length(); i++)
 				{
 					fs.write(symbol.charAt(i));
@@ -604,10 +623,13 @@ public class HuffmanTreeUsingWords
 					.println("Building bit representation of each symbol for " + ordered_list_of_symbols.size() + " symbols");
 		}
 		
+		//For every symbol:
 		for(String string : ordered_list_of_symbols) {
 			
+			//Get the bitpattern that corresponds to our symbol in this Huffman tree.
 			LinkedList<Integer> bitpattern = determine_bit_pattern_for_symbol(table.get(string));
 			
+			//Change the bitpattern to match the symbol's.
 			for(Integer bit : bitpattern) {
 				
 				if(bit == 1) {
@@ -695,6 +717,7 @@ public class HuffmanTreeUsingWords
 		LinkedList<Integer> path = new LinkedList<>();
 		Node traverse = leaf;
 		
+		//Traverse up until we reach the root.
 		while(traverse.get_parent() != null) {
 		
 			//If our current Node is a left child, add a 0.

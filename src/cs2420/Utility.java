@@ -1,6 +1,3 @@
-/**
- * 
- */
 package cs2420;
 
 import java.util.Hashtable;
