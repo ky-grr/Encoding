@@ -574,9 +574,9 @@ public class HuffmanTreeUsingWords
 			for (String symbol : symbol_list)
 			{
 				
-				//If we have found our EOF, break.
+				//If we have found our EOF, write a 0.
 				if(symbol.equals(EOF)) {
-					break;
+					fs.write(0);;
 				}
 				
 				//Otherwise, write each character to the file, character by character.
